@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1A49A50125FB54C000CF246E /* ImagePreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A49A50025FB54C000CF246E /* ImagePreviewViewController.swift */; };
 		1AA8826325FB03A300F5996C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA8826225FB03A300F5996C /* AppDelegate.swift */; };
 		1AA8826525FB03A300F5996C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA8826425FB03A300F5996C /* SceneDelegate.swift */; };
 		1AA8826725FB03A300F5996C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA8826625FB03A300F5996C /* ViewController.swift */; };
@@ -17,7 +16,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1A49A50025FB54C000CF246E /* ImagePreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePreviewViewController.swift; sourceTree = "<group>"; };
 		1AA8825F25FB03A300F5996C /* IphoneCamAudioControl.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IphoneCamAudioControl.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AA8826225FB03A300F5996C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1AA8826425FB03A300F5996C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -65,7 +63,6 @@
 				1AA8826B25FB03A500F5996C /* Assets.xcassets */,
 				1AA8826D25FB03A500F5996C /* LaunchScreen.storyboard */,
 				1AA8827025FB03A500F5996C /* Info.plist */,
-				1A49A50025FB54C000CF246E /* ImagePreviewViewController.swift */,
 			);
 			path = IphoneCamAudioControl;
 			sourceTree = "<group>";
@@ -140,7 +137,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1A49A50125FB54C000CF246E /* ImagePreviewViewController.swift in Sources */,
 				1AA8826725FB03A300F5996C /* ViewController.swift in Sources */,
 				1AA8826325FB03A300F5996C /* AppDelegate.swift in Sources */,
 				1AA8826525FB03A300F5996C /* SceneDelegate.swift in Sources */,

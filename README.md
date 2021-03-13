@@ -14,4 +14,6 @@ This is a prototype app to let our clients have a feel of voice assisted camera 
 * No display of picture 
 * Picture gets auto saved in to the photo library 
 * A flash animation has been added to indicate that the picture has been taken 
-* Zoom test has been implemented 
+* Zoom test has been implemented
+* The other view for displaying the picture is still there and has not been deleted
+	* Can be switched off via a function call  

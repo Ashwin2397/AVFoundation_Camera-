@@ -17,6 +17,8 @@ class ViewController : UIViewController {
     var cameraPreviewLayer : AVCaptureVideoPreviewLayer?
     var cameraCaptureOutput : AVCapturePhotoOutput?
     
+    @IBOutlet weak var zoomTextField: UITextField!
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -24,69 +26,65 @@ class ViewController : UIViewController {
         
     }
     
-    @IBAction func zoomInOrOut(){
-        
-        var i = 1.0
-        
-        while i < 16.0 {
-            
-            do{
-                
-                // Based on the stuff about the session Q
-                // This should be a mutex block
-                try camera!.lockForConfiguration()
-                
-                // Uses the AVCaptureDevice and zooms in
-//                 print(camera!.maxAvailableVideoZoomFactor) // 16.0
-//                 print(camera!.minAvailableVideoZoomFactor) // 1.0
-                
-                // The rate used in this case is 1, IDK the range of values, but I tried 50 and it was too fast. 5 is a steady zoom, alike to canon camera
-                camera!.ramp(toVideoZoomFactor: CGFloat(i),
-                            withRate: 1)
-                
-                // Unlock mutex lock here, crucial else the program may not function well
-                camera!.unlockForConfiguration()
-                
-                // For Debugging
-                print(" IN ZOOM ")
-                
-                sleep(1)
-            }catch{
-                print(error.localizedDescription)
-            }
-            i += 0.5
-        }
-        
-        
-        
-    }
     
-    
-    func displayCapturedPhoto(capturedPhoto : UIImage) {
+    @IBAction func zoomButton(){
         
-        // Notice the user of identifier here
-        // We are using the storyboard identifier to create this view controller
-        // This is so cool, we render the view from here!
-        let imagePreviewViewController = storyboard?.instantiateViewController(withIdentifier: "ImagePreviewViewController") as! ImagePreviewViewController
+        let zoomFactor = (zoomTextField.text! as NSString).floatValue
         
-        // Pass captured photo to it to display
-        imagePreviewViewController.capturedImage = capturedPhoto
-        
-        // Push it to navigation controller stack which manages the navigation between the embedded views
-        navigationController?.pushViewController(imagePreviewViewController, animated: true)
-    }
-    
-    @IBAction func takePicture(_ sender: Any) {
-        
+        // This handles the zoom functionality
         // I could just transfer code from this call into here
-        // BUT since this is a callback, I would want to add is as a call so that I could add any other calls where appropriate
+        // BUT since this is a callback, I would want to add it as a call so that I could add any other calls where appropriate
+        zoomInOrOut(zoomFactor: zoomFactor)
+        
+       
+        
+    }
+    
+    @IBAction func shootButton(_ sender: Any){
+        
+        // This call is here due to same reason provided in zoomButton()
         takePicture()
         
     }
     
-    func initializeCaptureSession() {
+    func zoomInOrOut(zoomFactor: Float){
+    /*
+    * This function zooms in as per the provided zoom factor
+    * @param: zoomFactor The zoom factor *must* be provided as a float
+    */
+        do{
+            
+            // Based on the stuff about the session Q
+            // This should be a mutex block
+            try camera!.lockForConfiguration()
+            
+            // Uses the AVCaptureDevice and zooms in
+            // print(camera!.maxAvailableVideoZoomFactor) // 16.0
+            // print(camera!.minAvailableVideoZoomFactor) // 1.0
+            
+            
+            // The rate used in this case is 1, IDK the range of values, but I tried 50 and it was too fast. '1' is a steady zoom, alike to canon camera
+            camera!.ramp(toVideoZoomFactor: CGFloat(zoomFactor), withRate: 1)
+            
+            // Unlock mutex lock here, crucial else the program may not function well
+            camera!.unlockForConfiguration()
+            
+        }catch{
+            print(error.localizedDescription)
+        }
+
         
-        // IDK if this works
+    }
+    func initializeCaptureSession() {
+    /*
+    * This function initializes the capture session by:
+    * 1. Initialize camera as the input
+    * 2. Initialize output to deal with captures
+    * 3. Add both input and output to the session
+    * 4. Initalize the camera's preview layer (Can be refactored to another function?)
+    * 5. Finally starts the session
+    */
+        // For high resolution images
         session.sessionPreset = AVCaptureSession.Preset.high
         
         // Select capture device
@@ -129,23 +127,26 @@ class ViewController : UIViewController {
     }
     
     func takePicture() {
-        
+    /*
+    * This function is called by the callback to capture the image.
+    */
         // This is to define our own settings
-        // Which is not exactly necessary, might remove this in the future?
-        // No I will use this later to add more elaborate settings in the future
+        // Not necessary, but I will leave this here to remind myself of this object and maybe use it in the future?
         let settings = AVCapturePhotoSettings()
         settings.flashMode = .auto
         
         // Add in the flash animation to signify that a picture has been taken
-        
-        // This is to reduce the opacity and simulate the take photo action (ie. The flash )
         captureFlash(isFlash: true)
         
+        // This call actually takes the picture
         cameraCaptureOutput?.capturePhoto(with: settings, delegate: self)
     }
 }
 
 // This delegate is for the function above
+// Apparently it is best practise to use "extension" in the case for adding delegate roles to this class
+// It makes perfect sense to do this though, might want to keep this in mind 
+// Other than that, it is virtually the same as including these calls in the class
 extension ViewController : AVCapturePhotoCaptureDelegate {
     
     // This is to handle the captured images
@@ -160,17 +161,17 @@ extension ViewController : AVCapturePhotoCaptureDelegate {
             // This is to increase the opacity back to 1 and simulate the flash
             captureFlash(isFlash: false)
             
-            // This call is deprecated, need to figure out how to do this later
+            // This call is deprecated, need to figure out another way later. However it works perfectly fine
             if let sampleBuffer = photoSampleBuffer, let dataImage = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: sampleBuffer, previewPhotoSampleBuffer: previewPhotoSampleBuffer) {
                 
                 // This is the captured image
                 if let finalImage = UIImage(data: dataImage) {
                     
-                    // We will display image
-                    // later should come in and change this to save image instead
-                    
+                    // This then saves the image to the local library
+                    // The other parameters are for issuing "Saved" notification to user etc.
+                    // It is elaborated in my notes
                     UIImageWriteToSavedPhotosAlbum(finalImage,nil,nil,nil)
-//                    displayCapturedPhoto(capturedPhoto: finalImage)
+
                 }
             }
         }
