@@ -2,7 +2,7 @@
 //  ViewController.swift
 //  IphoneCamAudioControl
 //
-//  Created by James on 2021-03-11.
+//  Created by Ashwin Selvakumar on 2021-03-11.
 //
 
 import Foundation
