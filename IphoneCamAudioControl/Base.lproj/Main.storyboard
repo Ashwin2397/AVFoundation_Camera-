@@ -17,26 +17,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" spacing="21" translatesAutoresizingMaskIntoConstraints="NO" id="qKd-ru-2PE">
-                                <rect key="frame" x="50" y="748" width="161" height="34"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zDQ-La-g1Q">
-                                        <rect key="frame" x="0.0" y="0.0" width="40" height="34"/>
-                                        <state key="normal" title="Zoom"/>
-                                        <connections>
-                                            <action selector="zoomButton" destination="BYZ-38-t0r" eventType="touchUpInside" id="aUf-e7-Lww"/>
-                                        </connections>
-                                    </button>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aBe-UX-zr0">
-                                        <rect key="frame" x="61" y="0.0" width="100" height="34"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="100" id="HsK-lS-kxC"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                    </textField>
-                                </subviews>
-                            </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zDQ-La-g1Q">
+                                <rect key="frame" x="50" y="752" width="40" height="30"/>
+                                <state key="normal" title="Zoom"/>
+                                <connections>
+                                    <action selector="zoomButton" destination="BYZ-38-t0r" eventType="touchUpInside" id="aUf-e7-Lww"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6ty-vr-P98">
                                 <rect key="frame" x="323" y="752" width="41" height="30"/>
                                 <state key="normal" title="Shoot"/>
@@ -48,16 +35,13 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="qKd-ru-2PE" secondAttribute="bottom" constant="80" id="HWh-Px-g7T"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="6ty-vr-P98" secondAttribute="trailing" constant="50" id="aWU-1M-iCL"/>
+                            <constraint firstItem="zDQ-La-g1Q" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="50" id="m2g-MN-EhS"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="6ty-vr-P98" secondAttribute="bottom" constant="80" id="rg7-ke-DNz"/>
-                            <constraint firstItem="qKd-ru-2PE" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="50" id="sgH-fH-BbT"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="zDQ-La-g1Q" secondAttribute="bottom" constant="80" id="sqS-QF-2l8"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="K4L-su-tO9"/>
-                    <connections>
-                        <outlet property="zoomTextField" destination="aBe-UX-zr0" id="46x-KT-SoQ"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
