@@ -24,6 +24,13 @@ class ViewController : UIViewController {
         super.viewDidLoad()
         initializeCaptureSession()
         
+        // This handles the change from one orientation to another
+        NotificationCenter.default.addObserver(
+                    self,
+                    selector: #selector(orientationChanged),
+                    name: UIDevice.orientationDidChangeNotification,
+                    object: nil
+        );
     }
     
     
@@ -47,6 +54,24 @@ class ViewController : UIViewController {
         
     }
     
+    // the @objc annotation is for the case when we use the #selector() function
+    // It lets the objective c runtime run this function, code wouldn't compile if it is not included
+    @objc func orientationChanged(){
+    /*
+    * This funciton handles any orientation changes and adjusts the camera preview in those instances 
+    */
+        // Dictionary of different orientations
+        let orientations:[Int:AVCaptureVideoOrientation] = [1:AVCaptureVideoOrientation.portrait, 3:AVCaptureVideoOrientation.landscapeRight, 4:AVCaptureVideoOrientation.landscapeLeft]
+        
+        // The current orientation upon that change
+        let currentOrientation = UIDevice.current.orientation.rawValue
+        
+        // The '??' Is for the case where the unwrapped value is nil
+        // In that case the default value is then AVCaptureVideoOrientation.portrait or simply the portrait mode
+        cameraPreviewLayer?.connection!.videoOrientation = orientations[currentOrientation] ?? AVCaptureVideoOrientation.portrait
+        
+        
+    }
     func zoomInOrOut(zoomFactor: Float){
     /*
     * This function zooms in as per the provided zoom factor
@@ -145,7 +170,7 @@ class ViewController : UIViewController {
 
 // This delegate is for the function above
 // Apparently it is best practise to use "extension" in the case for adding delegate roles to this class
-// It makes perfect sense to do this though, might want to keep this in mind 
+// It makes perfect sense to do this though, might want to keep this in mind
 // Other than that, it is virtually the same as including these calls in the class
 extension ViewController : AVCapturePhotoCaptureDelegate {
     
