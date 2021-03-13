@@ -17,7 +17,7 @@ class ViewController : UIViewController {
     var cameraPreviewLayer : AVCaptureVideoPreviewLayer?
     var cameraCaptureOutput : AVCapturePhotoOutput?
     
-    @IBOutlet weak var zoomTextField: UITextField!
+    
     
     override func viewDidLoad() {
         
@@ -36,12 +36,12 @@ class ViewController : UIViewController {
     
     @IBAction func zoomButton(){
         
-        let zoomFactor = (zoomTextField.text! as NSString).floatValue
+        let zoomFactor = 2.0
         
         // This handles the zoom functionality
         // I could just transfer code from this call into here
         // BUT since this is a callback, I would want to add it as a call so that I could add any other calls where appropriate
-        zoomInOrOut(zoomFactor: zoomFactor)
+        zoomInOrOut(zoomFactor: Float(zoomFactor))
         
        
         
@@ -58,7 +58,7 @@ class ViewController : UIViewController {
     // It lets the objective c runtime run this function, code wouldn't compile if it is not included
     @objc func orientationChanged(){
     /*
-    * This funciton handles any orientation changes and adjusts the camera preview in those instances 
+    * This funciton handles any orientation changes and adjusts the camera preview in those instances
     */
         // Dictionary of different orientations
         let orientations:[Int:AVCaptureVideoOrientation] = [1:AVCaptureVideoOrientation.portrait, 3:AVCaptureVideoOrientation.landscapeRight, 4:AVCaptureVideoOrientation.landscapeLeft]
