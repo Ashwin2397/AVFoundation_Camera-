@@ -18,10 +18,49 @@ class ViewController : UIViewController {
     var cameraCaptureOutput : AVCapturePhotoOutput?
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         initializeCaptureSession()
-        // Do any additional setup after loading the view, typically from a nib.
+        
     }
+    
+    @IBAction func zoomInOrOut(){
+        
+        var i = 1.0
+        
+        while i < 16.0 {
+            
+            do{
+                
+                // Based on the stuff about the session Q
+                // This should be a mutex block
+                try camera!.lockForConfiguration()
+                
+                // Uses the AVCaptureDevice and zooms in
+//                 print(camera!.maxAvailableVideoZoomFactor) // 16.0
+//                 print(camera!.minAvailableVideoZoomFactor) // 1.0
+                
+                // The rate used in this case is 1, IDK the range of values, but I tried 50 and it was too fast. 5 is a steady zoom, alike to canon camera
+                camera!.ramp(toVideoZoomFactor: CGFloat(i),
+                            withRate: 1)
+                
+                // Unlock mutex lock here, crucial else the program may not function well
+                camera!.unlockForConfiguration()
+                
+                // For Debugging
+                print(" IN ZOOM ")
+                
+                sleep(1)
+            }catch{
+                print(error.localizedDescription)
+            }
+            i += 0.5
+        }
+        
+        
+        
+    }
+    
     
     func displayCapturedPhoto(capturedPhoto : UIImage) {
         
@@ -39,7 +78,10 @@ class ViewController : UIViewController {
     
     @IBAction func takePicture(_ sender: Any) {
         
+        // I could just transfer code from this call into here
+        // BUT since this is a callback, I would want to add is as a call so that I could add any other calls where appropriate
         takePicture()
+        
     }
     
     func initializeCaptureSession() {
@@ -93,6 +135,12 @@ class ViewController : UIViewController {
         // No I will use this later to add more elaborate settings in the future
         let settings = AVCapturePhotoSettings()
         settings.flashMode = .auto
+        
+        // Add in the flash animation to signify that a picture has been taken
+        
+        // This is to reduce the opacity and simulate the take photo action (ie. The flash )
+        captureFlash(isFlash: true)
+        
         cameraCaptureOutput?.capturePhoto(with: settings, delegate: self)
     }
 }
@@ -101,12 +149,16 @@ class ViewController : UIViewController {
 extension ViewController : AVCapturePhotoCaptureDelegate {
     
     // This is to handle the captured images
+    // We have to implement this function to implement the AVCapturePhotoCaptureDelegate interface
     func photoOutput(_ captureOutput: AVCapturePhotoOutput, didFinishProcessingPhoto photoSampleBuffer: CMSampleBuffer?, previewPhoto previewPhotoSampleBuffer: CMSampleBuffer?, resolvedSettings: AVCaptureResolvedPhotoSettings, bracketSettings: AVCaptureBracketedStillImageSettings?, error: Error?) {
         
         // Log error if any
         if let unwrappedError = error {
             print(unwrappedError.localizedDescription)
         } else {
+            
+            // This is to increase the opacity back to 1 and simulate the flash
+            captureFlash(isFlash: false)
             
             // This call is deprecated, need to figure out how to do this later
             if let sampleBuffer = photoSampleBuffer, let dataImage = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: sampleBuffer, previewPhotoSampleBuffer: previewPhotoSampleBuffer) {
@@ -116,10 +168,25 @@ extension ViewController : AVCapturePhotoCaptureDelegate {
                     
                     // We will display image
                     // later should come in and change this to save image instead
-                    displayCapturedPhoto(capturedPhoto: finalImage)
+                    
+                    UIImageWriteToSavedPhotosAlbum(finalImage,nil,nil,nil)
+//                    displayCapturedPhoto(capturedPhoto: finalImage)
                 }
             }
         }
+    }
+    
+    func captureFlash(isFlash: Bool){
+    /*
+    * This toggles the opacity to simulate the flash
+    * @param: isFlash Pass in true for "switching on" the animation and false for "switching off" the animation
+    */
+        if( isFlash ){
+            view.alpha = 0.5
+        }else{
+            view.alpha = 1
+        }
+        
     }
 }
 

@@ -21,7 +21,7 @@
                                 <rect key="frame" x="50" y="748" width="40" height="30"/>
                                 <state key="normal" title="Zoom"/>
                                 <connections>
-                                    <action selector="zoom:" destination="BYZ-38-t0r" eventType="touchUpInside" id="aCx-Oe-XDj"/>
+                                    <action selector="zoomInOrOut" destination="BYZ-38-t0r" eventType="touchUpInside" id="WTO-za-Kcq"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6ty-vr-P98">
